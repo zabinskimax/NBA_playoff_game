@@ -1,0 +1,770 @@
+:root {
+    --primary-color: #17408B; /* NBA blue */
+    --secondary-color: #C9082A; /* NBA red */
+    --background-color: #FFFFFF;
+    --text-color: #000000;
+    --border-color: #CCCCCC;
+    --connector-color: #CCCCCC;
+    --highlight-color: #FDB927; /* NBA gold */
+    --shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    --glow-primary: 0 0 10px rgba(23, 64, 139, 0.6);
+    --glow-secondary: 0 0 10px rgba(201, 8, 42, 0.6);
+    --glow-highlight: 0 0 15px rgba(253, 185, 39, 0.7);
+    --hidden-message: "Jebać Władka";
+}
+
+/* Bracket Container */
+.bracket-container {
+    background: linear-gradient(135deg, var(--background-color) 0%, #f5f5f5 100%);
+    padding: 1.5rem 0.5rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    overflow-x: auto;
+    width: 100%;
+    max-width: 1500px;
+    margin: 0 auto;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
+    animation: backgroundShift 15s ease infinite alternate;
+    background-size: 200% 200%;
+}
+
+.bracket-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml;utf8,<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M10 1L1 10l9 9 9-9z" fill="%23f3f3f3"/></svg>') repeat;
+    opacity: 0.3;
+    z-index: -1;
+    pointer-events: none;
+    border-radius: 12px;
+}
+
+.bracket-container:hover::after {
+    content: var(--hidden-message);
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    font-size: 10px;
+    color: rgba(0,0,0,0.3);
+}
+
+.bracket-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--border-color);
+    position: relative;
+    overflow: hidden;
+}
+
+.bracket-header::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--highlight-color));
+    animation: gradient-slide 3s ease infinite;
+}
+
+.bracket-header:hover::before {
+    content: var(--hidden-message);
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 8px;
+    color: rgba(0,0,0,0.3);
+}
+
+@keyframes gradient-slide {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.bracket-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.bracket-header h2:hover::after {
+    content: var(--hidden-message);
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 8px;
+    color: rgba(0,0,0,0.3);
+}
+
+.bracket-controls {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.bracket-controls button {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.bracket-controls button::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 70%);
+    transform: rotate(45deg);
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.bracket-controls button:hover::before {
+    opacity: 1;
+    animation: button-shine 0.8s ease;
+}
+
+@keyframes button-shine {
+    0% { transform: scale(0) rotate(45deg); opacity: 0; }
+    80% { transform: scale(1.5) rotate(45deg); opacity: 0.5; }
+    100% { transform: scale(2) rotate(45deg); opacity: 0; }
+}
+
+.bracket-name-container {
+    margin-bottom: 0.75rem;
+}
+
+.bracket-name-container input {
+    padding: 0.4rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    width: 100%;
+    max-width: 300px;
+}
+
+.bracket-name-container input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 5px rgba(23, 64, 139, 0.3);
+    outline: none;
+}
+
+/* Main bracket layout */
+.bracket-content {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    min-width: 1600px;
+    padding: 0 0.5rem;
+}
+
+/* Conference styles */
+.bracket-region {
+    width: 26%;
+    position: relative;
+    margin: 0 0.5rem;
+}
+
+/* Rounds container */
+.bracket-rounds {
+    display: flex;
+    height: 800px;
+    position: relative;
+}
+
+/* Round column */
+.bracket-round {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding: 0 0.2rem;
+}
+
+.round-title {
+    text-align: center;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+    white-space: nowrap;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 0.2rem 0;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.round-title::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 2px;
+    background-color: var(--highlight-color);
+    border-radius: 2px;
+}
+
+/* Finals round styling */
+.finals-round {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 10%;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
+    border: 2px solid var(--highlight-color);
+    animation: finals-glow 2s infinite alternate;
+}
+
+@keyframes finals-glow {
+    0% { box-shadow: 0 0 15px rgba(253, 185, 39, 0.3); }
+    100% { box-shadow: 0 0 20px rgba(253, 185, 39, 0.7); }
+}
+
+.finals-round .round-title {
+    color: var(--secondary-color);
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    position: relative;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.finals-round .round-title::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 3px;
+    background: var(--highlight-color);
+    border-radius: 3px;
+}
+
+.finals-round .matchup {
+    border: 2px solid var(--highlight-color);
+    box-shadow: 0 0 15px rgba(253, 185, 39, 0.3);
+    width: 100%;
+}
+
+.finals-round .team-select select {
+    font-weight: 600;
+}
+
+/* Matchups container */
+.matchups-container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    height: 100%;
+}
+
+/* First Round - 8 matchups evenly spaced */
+.bracket-round:nth-child(1) .matchups-container {
+    justify-content: space-between;
+    padding: 20px 0;
+}
+
+/* Second Round - 4 matchups positioned accordingly */
+.bracket-round:nth-child(2) .matchups-container {
+    justify-content: space-around;
+    padding: 60px 0;
+}
+
+.bracket-round:nth-child(2) .matchup:nth-child(1) {
+    position: absolute;
+    top: 50px;
+}
+
+.bracket-round:nth-child(2) .matchup:nth-child(2) {
+    position: absolute;
+    top: 200px;
+}
+
+.bracket-round:nth-child(2) .matchup:nth-child(3) {
+    position: absolute;
+    top: 350px;
+}
+
+.bracket-round:nth-child(2) .matchup:nth-child(4) {
+    position: absolute;
+    top: 500px;
+}
+
+/* Conference Finals - 2 matchups positioned accordingly */
+.bracket-round:nth-child(3) .matchups-container {
+    justify-content: space-around;
+    padding: 0;
+}
+
+.bracket-round:nth-child(3) .matchup:nth-child(1) {
+    position: absolute;
+    top: 125px;
+}
+
+.bracket-round:nth-child(3) .matchup:nth-child(2) {
+    position: absolute;
+    top: 425px;
+}
+
+/* Conference Champion - 1 matchup centered */
+.bracket-round:nth-child(4) .matchups-container {
+    justify-content: center;
+    padding: 0;
+}
+
+.bracket-round:nth-child(4) .matchup:nth-child(1) {
+    position: absolute;
+    top: 275px;
+}
+
+/* Individual matchup */
+.matchup {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    box-shadow: var(--shadow);
+    position: relative;
+    width: 100%;
+    min-width: 120px;
+    transition: all 0.3s ease;
+}
+
+.matchup:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Connector lines */
+.connector {
+    position: absolute;
+    background: transparent;
+    z-index: 1;
+    transition: all 0.3s ease;
+}
+
+/* Horizontal connectors */
+.connector-horizontal {
+    height: 2px;
+    right: -10px;
+    width: 10px;
+}
+
+/* Vertical connectors */
+.connector-vertical {
+    width: 2px;
+}
+
+/* Finals connectors */
+.finals-round .connector-horizontal,
+.connector-horizontal[data-finals="true"] {
+    background: transparent;
+    height: 3px;
+}
+
+/* Connector arrows */
+.connector-arrow {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    z-index: 2;
+}
+
+.connector-arrow.east {
+    border-width: 6px 0 6px 12px;
+    border-color: transparent transparent transparent transparent;
+}
+
+.connector-arrow.west {
+    border-width: 6px 12px 6px 0;
+    border-color: transparent transparent transparent transparent;
+}
+
+/* Team selection */
+.team-select {
+    position: relative;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+.team-select select {
+    width: 100%;
+    padding: 0.4rem;
+    border: none;
+    border-bottom: 1px solid var(--border-color);
+    background-color: transparent;
+    appearance: none;
+    cursor: pointer;
+    font-size: 0.75rem;
+    font-weight: 500;
+    height: 32px;
+    transition: all 0.3s ease;
+}
+
+.team-select:first-child select {
+    border-radius: 6px 6px 0 0;
+}
+
+.team-select:last-child select {
+    border-bottom: none;
+    border-radius: 0 0 6px 6px;
+}
+
+/* Team Colors - blend with logo */
+.team-select select[data-team] {
+    font-weight: bold;
+    background-blend-mode: soft-light;
+    background-size: 20px;
+    background-repeat: no-repeat;
+    background-position: 4px center;
+    padding-left: 28px;
+    animation: team-select-pulse 0.5s ease-out;
+}
+
+@keyframes team-select-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+    100% { transform: scale(1); }
+}
+
+/* Team Colors */
+.team-select select[data-team="Boston Celtics"] { background-color: #007A33; color: white; }
+.team-select select[data-team="Brooklyn Nets"] { background-color: #000000; color: white; }
+.team-select select[data-team="New York Knicks"] { background-color: #F58426; color: white; }
+.team-select select[data-team="Philadelphia 76ers"] { background-color: #006BB6; color: white; }
+.team-select select[data-team="Toronto Raptors"] { background-color: #CE1141; color: white; }
+.team-select select[data-team="Chicago Bulls"] { background-color: #CE1141; color: white; }
+.team-select select[data-team="Cleveland Cavaliers"] { background-color: #860038; color: white; }
+.team-select select[data-team="Detroit Pistons"] { background-color: #C8102E; color: white; }
+.team-select select[data-team="Indiana Pacers"] { background-color: #002D62; color: white; }
+.team-select select[data-team="Milwaukee Bucks"] { background-color: #00471B; color: white; }
+.team-select select[data-team="Atlanta Hawks"] { background-color: #E03A3E; color: white; }
+.team-select select[data-team="Charlotte Hornets"] { background-color: #1D1160; color: white; }
+.team-select select[data-team="Miami Heat"] { background-color: #98002E; color: white; }
+.team-select select[data-team="Orlando Magic"] { background-color: #0077C0; color: white; }
+.team-select select[data-team="Washington Wizards"] { background-color: #002B5C; color: white; }
+.team-select select[data-team="Denver Nuggets"] { background-color: #0E2240; color: white; }
+.team-select select[data-team="Minnesota Timberwolves"] { background-color: #0C2340; color: white; }
+.team-select select[data-team="Oklahoma City Thunder"] { background-color: #007AC1; color: white; }
+.team-select select[data-team="Portland Trail Blazers"] { background-color: #E03A3E; color: white; }
+.team-select select[data-team="Utah Jazz"] { background-color: #002B5C; color: white; }
+.team-select select[data-team="Golden State Warriors"] { background-color: #1D428A; color: white; }
+.team-select select[data-team="LA Clippers"] { background-color: #C8102E; color: white; }
+.team-select select[data-team="Los Angeles Lakers"] { background-color: #552583; color: white; }
+.team-select select[data-team="Phoenix Suns"] { background-color: #1D1160; color: white; }
+.team-select select[data-team="Sacramento Kings"] { background-color: #5A2D81; color: white; }
+.team-select select[data-team="Dallas Mavericks"] { background-color: #00538C; color: white; }
+.team-select select[data-team="Houston Rockets"] { background-color: #CE1141; color: white; }
+.team-select select[data-team="Memphis Grizzlies"] { background-color: #5D76A9; color: white; }
+.team-select select[data-team="New Orleans Pelicans"] { background-color: #0C2340; color: white; }
+.team-select select[data-team="San Antonio Spurs"] { background-color: #C4CED4; color: black; }
+
+/* Active team effect */
+.team-select select[data-team]:not([value=""]) {
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+}
+
+/* Right side conference (flipped) */
+.bracket-region:nth-child(2) .bracket-rounds {
+    flex-direction: row-reverse;
+}
+
+.bracket-region:nth-child(2) .connector-horizontal {
+    left: -10px;
+    right: auto;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1800px) {
+    .bracket-content {
+        min-width: 1400px;
+    }
+}
+
+@media (max-width: 1600px) {
+    .bracket-content {
+        min-width: 1200px;
+    }
+}
+
+@media (max-width: 1400px) {
+    .bracket-content {
+        min-width: 1000px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .bracket-content {
+        flex-direction: column;
+        min-width: 0;
+        padding: 0;
+    }
+    
+    .bracket-region {
+        width: 100%;
+        margin: 0 0 3rem 0;
+    }
+    
+    .finals-round {
+        position: relative;
+        left: 0;
+        top: 0;
+        transform: none;
+        width: 100%;
+        margin: 1rem 0;
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .bracket-container {
+        padding: 1rem;
+    }
+    
+    .bracket-round {
+        padding: 0 0.2rem;
+    }
+    
+    .round-title {
+        font-size: 0.7rem;
+    }
+    
+    .team-select select {
+        font-size: 0.7rem;
+        padding-left: 24px;
+        background-size: 16px;
+    }
+}
+
+/* Animation for bracket reveal */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.bracket-round {
+    animation: fadeIn 0.4s ease forwards;
+}
+
+.bracket-round:nth-child(1) { animation-delay: 0.1s; }
+.bracket-round:nth-child(2) { animation-delay: 0.2s; }
+.bracket-round:nth-child(3) { animation-delay: 0.3s; }
+.bracket-round:nth-child(4) { animation-delay: 0.4s; }
+
+/* Selected team highlight */
+.team-select select:focus {
+    outline: none;
+    background-color: rgba(23, 64, 139, 0.05);
+    box-shadow: 0 0 5px rgba(23, 64, 139, 0.2);
+}
+
+/* Read-only state */
+.team-select.readonly select {
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+/* Connector animations */
+@keyframes expandWidth {
+    from { width: 0; opacity: 0; }
+    to { width: 100%; opacity: 1; }
+}
+
+@keyframes expandHeight {
+    from { height: 0; opacity: 0; }
+    to { height: 100%; opacity: 1; }
+}
+
+@keyframes arrowAppear {
+    0% { opacity: 0; transform: scale(0); }
+    70% { opacity: 1; transform: scale(1.2); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+.animate-connector.connector-horizontal {
+    animation: expandWidth 0.5s ease forwards;
+    width: 100% !important;
+}
+
+.animate-connector.connector-vertical {
+    animation: expandHeight 0.5s ease forwards;
+    height: 100% !important;
+}
+
+.animate-arrow {
+    animation: arrowAppear 0.7s ease forwards 0.3s;
+    opacity: 0;
+}
+
+/* Background animation for the bracket container */
+@keyframes backgroundShift {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 100% 100%; }
+}
+
+/* Team selection animation */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+
+.team-select select:hover {
+    animation: pulse 0.8s ease-in-out infinite;
+}
+
+/* Enhanced hover effects for matchups */
+.matchup {
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.matchup:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+}
+
+/* Championship effect */
+.finals-round .matchup {
+    position: relative;
+    overflow: hidden;
+}
+
+.finals-round .matchup::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(253, 185, 39, 0.3) 0%, rgba(253, 185, 39, 0) 70%);
+    transform: rotate(45deg);
+    animation: rotateGlow 7s linear infinite;
+    z-index: -1;
+}
+
+@keyframes rotateGlow {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Enhanced CSS for team selects that have a selection */
+.team-select select[data-team]:not([value=""]) {
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.15);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.team-select select[data-team]:not([value=""]):hover {
+    box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.25);
+}
+
+/* Improved bracket header with interactive elements */
+.bracket-controls button {
+    transform: perspective(1px) translateZ(0);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.bracket-controls button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.bracket-controls button:active {
+    transform: scale(0.95);
+}
+
+/* Additional visual enhancements */
+.round-title:hover {
+    color: var(--secondary-color);
+    transform: scale(1.05);
+}
+
+.bracket-round .round-title::before {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: var(--highlight-color);
+    transition: width 0.3s ease;
+}
+
+.bracket-round:hover .round-title::before {
+    width: 30px;
+}
+
+/* Team Colors */
+.team-select select[data-team="Boston Celtics"]:hover::after { content: var(--hidden-message); position: absolute; right: 5px; top: 2px; font-size: 8px; opacity: 0.1; }
+.team-select select[data-team="Brooklyn Nets"]:hover::after { content: var(--hidden-message); position: absolute; right: 5px; top: 2px; font-size: 8px; opacity: 0.1; }
+.team-select select[data-team="Miami Heat"]:hover::after { content: var(--hidden-message); position: absolute; right: 5px; top: 2px; font-size: 8px; opacity: 0.1; }
+.team-select select[data-team="Milwaukee Bucks"]:hover::after { content: var(--hidden-message); position: absolute; right: 5px; top: 2px; font-size: 8px; opacity: 0.1; }
+
+/* Finals round styling */
+.finals-round:hover::before {
+    content: var(--hidden-message);
+    position: absolute;
+    bottom: 2px;
+    left: 5px;
+    font-size: 8px;
+    color: rgba(0,0,0,0.3);
+}
+
+/* Individual matchup */
+.matchup:nth-child(odd):hover::after {
+    content: var(--hidden-message);
+    position: absolute;
+    top: 2px;
+    right: 5px;
+    font-size: 7px;
+    color: rgba(0,0,0,0.3);
+}
+
+/* Active team effect */
+.team-select select[data-team]:not([value=""]):hover::before {
+    content: var(--hidden-message);
+    position: absolute;
+    top: 0;
+    left: 5px;
+    font-size: 7px;
+    color: rgba(255,255,255,0.3);
+}
+
+/* Enhanced CSS for team selects that have a selection */
+.team-select select[data-team]:not([value=""]):hover::after {
+    content: var(--hidden-message);
+    position: absolute;
+    bottom: 0;
+    right: 5px;
+    font-size: 7px;
+    color: rgba(255,255,255,0.3);
+} 

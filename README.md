@@ -1,84 +1,64 @@
-# NBA Playoffs Bracket Challenge 2025
+# NBA Playoffs Bracket Challenge
 
-A static web application for creating and managing NBA Playoffs brackets. This application allows users to create their predictions for the 2025 NBA Playoffs, compete with others, and track their progress on a leaderboard.
+A static web application that allows users to create and share their NBA Playoffs bracket predictions. Built with HTML, CSS, and JavaScript.
 
 ## Features
 
-- User registration and authentication using localStorage
-- Create and manage multiple brackets
-- Interactive bracket creation interface
-- Real-time bracket updates
-- Leaderboard system
-- Responsive design for all devices
-- No backend required - everything runs in the browser
+- Interactive NBA Playoffs bracket creation
+- User account system (using localStorage)
+- Bracket saving and loading
+- Responsive design for desktop and mobile
+- Leaderboard to compare with other users
+
+## Technologies Used
+
+- HTML5
+- CSS3 (with custom styling for a modern NBA look)
+- JavaScript (ES6+)
+- Bootstrap 5 for responsive grid and components
+- Local Storage for data persistence
+- Font Awesome for icons
 
 ## Getting Started
 
-### Prerequisites
+You can access the live application at [GitHub Pages URL].
 
-- A modern web browser (Chrome, Firefox, Safari, or Edge)
-- Basic understanding of how to use web applications
+To run the application locally:
 
-### Installation
-
-1. Clone this repository or download the source code
+1. Clone this repository
 2. Open `index.html` in your web browser
-3. That's it! The application is ready to use
 
-### Usage
+No server setup is required as this is a fully static application.
 
-1. **Registration**
-   - Click the "Register" button in the navigation bar
-   - Fill in your username, email, and password
-   - Click "Register" to create your account
+## How It Works
 
-2. **Creating a Bracket**
-   - Log in to your account
-   - Click "Create Bracket" in the navigation bar
-   - Give your bracket a name
-   - Select teams for each matchup
-   - Click "Save Bracket" to save your predictions
+The application uses client-side JavaScript to handle:
 
-3. **Viewing Your Brackets**
-   - Click "Dashboard" in the navigation bar
-   - View all your created brackets
-   - Click on a bracket to see its details
+- User authentication (simulated with localStorage)
+- Dynamic content loading
+- Bracket creation and management
+- Data persistence using localStorage
 
-4. **Leaderboard**
-   - Click "Leaderboard" in the navigation bar
-   - View all brackets and their scores
-   - Sort by rank to see who's in the lead
+The bracket visualization is built using a combination of HTML, CSS, and JavaScript to create an interactive and responsive bracket experience.
 
-## Technical Details
+## Project Structure
 
-### Storage
+- `/css` - Contains stylesheet files
+  - `styles.css` - Main application styles
+  - `bracket.css` - Styles specific to the bracket visualization
+- `/js` - Contains JavaScript files
+  - `main.js` - Main application logic
+  - `auth.js` - Authentication handling
+  - `bracket.js` - Bracket visualization and logic
+- `index.html` - Main entry point
 
-The application uses the browser's localStorage to store:
-- User accounts
-- Brackets
-- User preferences
+## Browser Compatibility
 
-### Security
-
-- Passwords are stored in localStorage (Note: This is not secure for production use)
-- User sessions are managed through localStorage
-- No sensitive data is transmitted to external servers
-
-### Browser Support
-
-The application is compatible with:
-- Chrome (recommended)
+This application works on all modern browsers including:
+- Chrome
 - Firefox
 - Safari
 - Edge
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
 
 ## License
 
@@ -86,9 +66,9 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Acknowledgments
 
-- NBA teams and logos are trademarks of their respective owners
-- Bootstrap for the UI framework
-- Font Awesome for icons
+- NBA for inspiration and design elements
+- Bootstrap team for the responsive framework
+- Font Awesome for the icons
 
 ## Support
 

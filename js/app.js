@@ -16,56 +16,111 @@ document.addEventListener('DOMContentLoaded', function() {
     // Set up form event listeners
     document.getElementById('loginForm').addEventListener('submit', handleLogin);
     document.getElementById('registerForm').addEventListener('submit', handleRegister);
+
+    // Add scroll event listener for navbar
+    window.addEventListener('scroll', function() {
+        const navbar = document.querySelector('.navbar');
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
 });
 
 // Navigation functions
 function showHome() {
     const content = `
-        <div class="row align-items-center min-vh-75">
-            <div class="col-md-6">
-                <h1 class="display-4 fw-bold mb-4">NBA Playoffs Bracket Challenge 2025</h1>
-                <p class="lead mb-4">Create your perfect bracket, compete with friends, and see who can predict the NBA Playoffs the best!</p>
-                ${!currentUser ? `
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-                        <button class="btn btn-primary btn-lg px-4 me-md-2" onclick="showRegisterModal()">Get Started</button>
-                        <button class="btn btn-outline-primary btn-lg px-4" onclick="showLoginModal()">Login</button>
+        <div class="hero-section">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <h1 class="display-4 fw-bold mb-4">NBA Playoffs Bracket Challenge 2025</h1>
+                        <p class="lead mb-4">Create your perfect bracket, compete with friends, and see who can predict the NBA Playoffs the best!</p>
+                        ${!currentUser ? `
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                                <button class="btn btn-primary btn-lg px-4 me-md-2" onclick="showRegisterModal()">
+                                    <i class="fas fa-user-plus me-2"></i>Get Started
+                                </button>
+                                <button class="btn btn-outline-primary btn-lg px-4" onclick="showLoginModal()">
+                                    <i class="fas fa-sign-in-alt me-2"></i>Login
+                                </button>
+                            </div>
+                        ` : `
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                                <button class="btn btn-primary btn-lg px-4 me-md-2" onclick="showCreateBracket()">
+                                    <i class="fas fa-bracket-curly me-2"></i>Create Bracket
+                                </button>
+                                <button class="btn btn-outline-primary btn-lg px-4" onclick="showDashboard()">
+                                    <i class="fas fa-tachometer-alt me-2"></i>View Dashboard
+                                </button>
+                            </div>
+                        `}
                     </div>
-                ` : `
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-                        <button class="btn btn-primary btn-lg px-4 me-md-2" onclick="showCreateBracket()">Create Bracket</button>
-                        <button class="btn btn-outline-primary btn-lg px-4" onclick="showDashboard()">View Dashboard</button>
+                    <div class="col-md-6">
+                        <div class="card glass floating">
+                            <div class="card-body p-4">
+                                <h3 class="card-title mb-4">How It Works</h3>
+                                <div class="d-flex mb-3">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-user-plus fa-2x text-primary"></i>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h5>1. Create an Account</h5>
+                                        <p class="mb-0">Sign up for free and join the competition</p>
+                                    </div>
+                                </div>
+                                <div class="d-flex mb-3">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-bracket-curly fa-2x text-primary"></i>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h5>2. Create Your Bracket</h5>
+                                        <p class="mb-0">Fill out your predictions for the 2025 NBA Playoffs</p>
+                                    </div>
+                                </div>
+                                <div class="d-flex mb-3">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-trophy fa-2x text-primary"></i>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h5>3. Compete & Win</h5>
+                                        <p class="mb-0">Track your progress and compete for the top spot</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                `}
+                </div>
             </div>
-            <div class="col-md-6">
-                <div class="card bg-light">
-                    <div class="card-body p-4">
-                        <h3 class="card-title mb-4">How It Works</h3>
-                        <div class="d-flex mb-3">
-                            <div class="flex-shrink-0">
-                                <i class="fas fa-user-plus fa-2x text-primary"></i>
-                            </div>
-                            <div class="flex-grow-1 ms-3">
-                                <h5>1. Create an Account</h5>
-                                <p class="mb-0">Sign up for free and join the competition</p>
-                            </div>
-                        </div>
-                        <div class="d-flex mb-3">
-                            <div class="flex-shrink-0">
-                                <i class="fas fa-bracket-curly fa-2x text-primary"></i>
-                            </div>
-                            <div class="flex-grow-1 ms-3">
-                                <h5>2. Create Your Bracket</h5>
-                                <p class="mb-0">Fill out your predictions for the 2025 NBA Playoffs</p>
+        </div>
+        <div class="container">
+            <div class="how-it-works">
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-basketball-ball fa-3x text-primary mb-3"></i>
+                                <h4>NBA Teams</h4>
+                                <p>Choose from all 30 NBA teams to create your perfect bracket</p>
                             </div>
                         </div>
-                        <div class="d-flex mb-3">
-                            <div class="flex-shrink-0">
-                                <i class="fas fa-trophy fa-2x text-primary"></i>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-chart-line fa-3x text-primary mb-3"></i>
+                                <h4>Track Progress</h4>
+                                <p>Monitor your bracket's performance throughout the playoffs</p>
                             </div>
-                            <div class="flex-grow-1 ms-3">
-                                <h5>3. Compete & Win</h5>
-                                <p class="mb-0">Track your progress and compete for the top spot</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-users fa-3x text-primary mb-3"></i>
+                                <h4>Compete</h4>
+                                <p>Challenge friends and compete for the top spot on the leaderboard</p>
                             </div>
                         </div>
                     </div>
@@ -86,50 +141,54 @@ function showDashboard() {
         .filter(bracket => bracket.userId === currentUser.id);
 
     const content = `
-        <div class="row">
-            <div class="col-12">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h2>My Brackets</h2>
-                    <button class="btn btn-primary" onclick="showCreateBracket()">
-                        <i class="fas fa-plus me-2"></i>Create New Bracket
-                    </button>
-                </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2>My Brackets</h2>
+                        <button class="btn btn-primary" onclick="showCreateBracket()">
+                            <i class="fas fa-plus me-2"></i>Create New Bracket
+                        </button>
+                    </div>
 
-                ${brackets.length > 0 ? `
-                    <div class="row">
-                        ${brackets.map(bracket => `
-                            <div class="col-md-6 col-lg-4 mb-4">
-                                <div class="card h-100">
-                                    <div class="card-body">
-                                        <h5 class="card-title">${bracket.name}</h5>
-                                        <p class="card-text">
-                                            <small class="text-muted">
-                                                Created: ${new Date(bracket.createdAt).toLocaleDateString()}
-                                            </small>
-                                        </p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <span class="badge bg-primary">Score: ${bracket.score.toFixed(1)}</span>
-                                            </div>
-                                            <div>
-                                                <button class="btn btn-outline-primary btn-sm" onclick="viewBracket('${bracket.id}')">View Details</button>
+                    ${brackets.length > 0 ? `
+                        <div class="row">
+                            ${brackets.map(bracket => `
+                                <div class="col-md-6 col-lg-4 mb-4">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <h5 class="card-title">${bracket.name}</h5>
+                                            <p class="card-text">
+                                                <small class="text-muted">
+                                                    Created: ${new Date(bracket.createdAt).toLocaleDateString()}
+                                                </small>
+                                            </p>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <span class="badge bg-primary">Score: ${bracket.score.toFixed(1)}</span>
+                                                </div>
+                                                <div>
+                                                    <button class="btn btn-outline-primary btn-sm" onclick="viewBracket('${bracket.id}')">
+                                                        <i class="fas fa-eye me-1"></i>View Details
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                ` : `
-                    <div class="text-center py-5">
-                        <i class="fas fa-bracket-curly fa-3x text-muted mb-3"></i>
-                        <h3>No Brackets Yet</h3>
-                        <p class="text-muted">Create your first bracket to start competing!</p>
-                        <button class="btn btn-primary" onclick="showCreateBracket()">
-                            <i class="fas fa-plus me-2"></i>Create Your First Bracket
-                        </button>
-                    </div>
-                `}
+                            `).join('')}
+                        </div>
+                    ` : `
+                        <div class="text-center py-5">
+                            <i class="fas fa-bracket-curly fa-3x text-muted mb-3"></i>
+                            <h3>No Brackets Yet</h3>
+                            <p class="text-muted">Create your first bracket to start competing!</p>
+                            <button class="btn btn-primary" onclick="showCreateBracket()">
+                                <i class="fas fa-plus me-2"></i>Create Your First Bracket
+                            </button>
+                        </div>
+                    `}
+                </div>
             </div>
         </div>
     `;
@@ -142,104 +201,8 @@ function showCreateBracket() {
         return;
     }
 
-    const content = `
-        <div class="row">
-            <div class="col-12">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h2>Create Your Bracket</h2>
-                    <button class="btn btn-primary" onclick="saveBracket()">
-                        <i class="fas fa-save me-2"></i>Save Bracket
-                    </button>
-                </div>
-
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <label for="bracketName" class="form-label">Bracket Name</label>
-                            <input type="text" class="form-control" id="bracketName" placeholder="Enter a name for your bracket">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bracket-container">
-                    <div class="row">
-                        <!-- First Round -->
-                        <div class="col-md-3">
-                            <div class="round-container">
-                                <h4 class="text-center mb-3">First Round</h4>
-                                <div class="matchups">
-                                    ${Array(8).fill().map((_, i) => `
-                                        <div class="matchup mb-3">
-                                            <div class="team-select">
-                                                <select class="form-select team-select" data-round="1" data-matchup="${i}">
-                                                    <option value="">Select Team</option>
-                                                    ${getTeamOptions()}
-                                                </select>
-                                            </div>
-                                        </div>
-                                    `).join('')}
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Second Round -->
-                        <div class="col-md-3">
-                            <div class="round-container">
-                                <h4 class="text-center mb-3">Second Round</h4>
-                                <div class="matchups">
-                                    ${Array(4).fill().map((_, i) => `
-                                        <div class="matchup mb-3">
-                                            <div class="team-select">
-                                                <select class="form-select team-select" data-round="2" data-matchup="${i}">
-                                                    <option value="">Select Team</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    `).join('')}
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Conference Finals -->
-                        <div class="col-md-3">
-                            <div class="round-container">
-                                <h4 class="text-center mb-3">Conference Finals</h4>
-                                <div class="matchups">
-                                    ${Array(2).fill().map((_, i) => `
-                                        <div class="matchup mb-3">
-                                            <div class="team-select">
-                                                <select class="form-select team-select" data-round="3" data-matchup="${i}">
-                                                    <option value="">Select Team</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    `).join('')}
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- NBA Finals -->
-                        <div class="col-md-3">
-                            <div class="round-container">
-                                <h4 class="text-center mb-3">NBA Finals</h4>
-                                <div class="matchups">
-                                    <div class="matchup mb-3">
-                                        <div class="team-select">
-                                            <select class="form-select team-select" data-round="4" data-matchup="0">
-                                                <option value="">Select Team</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `;
-    document.getElementById('mainContent').innerHTML = content;
-    setupBracketHandlers();
+    // Create a new instance of the Bracket class
+    window.bracket = new Bracket('mainContent');
 }
 
 function showLeaderboard() {
@@ -247,45 +210,47 @@ function showLeaderboard() {
         .sort((a, b) => b.score - a.score);
 
     const content = `
-        <div class="row">
-            <div class="col-12">
-                <h2 class="mb-4">Leaderboard</h2>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="mb-4">Leaderboard</h2>
 
-                <div class="card">
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Rank</th>
-                                        <th>User</th>
-                                        <th>Bracket Name</th>
-                                        <th>Score</th>
-                                        <th>Created</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    ${brackets.map((bracket, index) => `
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
                                         <tr>
-                                            <td>
-                                                <span class="badge bg-primary">${index + 1}</span>
-                                            </td>
-                                            <td>${bracket.username}</td>
-                                            <td>${bracket.name}</td>
-                                            <td>
-                                                <span class="badge bg-success">${bracket.score.toFixed(1)}</span>
-                                            </td>
-                                            <td>${new Date(bracket.createdAt).toLocaleDateString()}</td>
-                                            <td>
-                                                <button class="btn btn-sm btn-outline-primary" onclick="viewBracket('${bracket.id}')">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
-                                            </td>
+                                            <th>Rank</th>
+                                            <th>User</th>
+                                            <th>Bracket Name</th>
+                                            <th>Score</th>
+                                            <th>Created</th>
+                                            <th>Actions</th>
                                         </tr>
-                                    `).join('')}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        ${brackets.map((bracket, index) => `
+                                            <tr>
+                                                <td>
+                                                    <span class="badge bg-primary">${index + 1}</span>
+                                                </td>
+                                                <td>${bracket.username}</td>
+                                                <td>${bracket.name}</td>
+                                                <td>
+                                                    <span class="badge bg-success">${bracket.score.toFixed(1)}</span>
+                                                </td>
+                                                <td>${new Date(bracket.createdAt).toLocaleDateString()}</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-outline-primary" onclick="viewBracket('${bracket.id}')">
+                                                        <i class="fas fa-eye"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -384,11 +349,12 @@ function setupBracketHandlers() {
     const teamSelects = document.querySelectorAll('.team-select');
     teamSelects.forEach(select => {
         select.addEventListener('change', function() {
+            const conference = this.dataset.conference;
             const currentRound = parseInt(this.dataset.round);
             const currentMatchup = parseInt(this.dataset.matchup);
             const selectedTeam = this.value;
 
-            if (currentRound < 4) {
+            if (currentRound < 5) {
                 const nextRound = currentRound + 1;
                 const nextMatchup = Math.floor(currentMatchup / 2);
                 const nextSelect = document.querySelector(`.team-select[data-round="${nextRound}"][data-matchup="${nextMatchup}"]`);
@@ -411,38 +377,43 @@ function setupBracketHandlers() {
 }
 
 function saveBracket() {
-    const name = document.getElementById('bracketName').value.trim();
-    if (!name) {
-        showFlashMessage('Please enter a name for your bracket', 'danger');
+    if (!currentUser) {
+        showLoginModal();
         return;
     }
 
-    const picks = {};
-    const teamSelects = document.querySelectorAll('.team-select');
-    teamSelects.forEach(select => {
-        picks[`round${select.dataset.round}_matchup${select.dataset.matchup}`] = select.value;
-    });
-
-    if (!Object.values(picks).every(pick => pick)) {
-        showFlashMessage('Please complete all matchups', 'danger');
+    const bracketName = document.getElementById('bracketName').value;
+    if (!bracketName) {
+        showFlashMessage('Please enter a bracket name', 'danger');
         return;
     }
 
-    const brackets = JSON.parse(localStorage.getItem('brackets') || '[]');
+    // Get the bracket data from the Bracket class instance
+    const bracketData = window.bracket.getBracketData();
+    
+    // Create new bracket object
     const newBracket = {
         id: Date.now().toString(),
         userId: currentUser.id,
-        username: currentUser.username,
-        name,
-        picks,
+        name: bracketName,
+        picks: bracketData,
         score: 0,
         createdAt: new Date().toISOString()
     };
 
+    // Get existing brackets
+    const brackets = JSON.parse(localStorage.getItem('brackets') || '[]');
+    
+    // Add new bracket
     brackets.push(newBracket);
+    
+    // Save to localStorage
     localStorage.setItem('brackets', JSON.stringify(brackets));
+    
     showFlashMessage('Bracket saved successfully!', 'success');
-    showDashboard();
+    setTimeout(() => {
+        showDashboard();
+    }, 1500);
 }
 
 function viewBracket(bracketId) {
@@ -454,25 +425,10 @@ function viewBracket(bracketId) {
         return;
     }
 
-    const content = `
-        <div class="row">
-            <div class="col-12">
-                <h2 class="mb-4">${bracket.name}</h2>
-                <div class="card">
-                    <div class="card-body">
-                        <div class="bracket-view">
-                            ${Object.entries(bracket.picks).map(([key, value]) => `
-                                <div class="mb-3">
-                                    <strong>${key}:</strong> ${value}
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `;
-    document.getElementById('mainContent').innerHTML = content;
+    // Create a new instance of the Bracket class for viewing
+    window.bracket = new Bracket('mainContent');
+    window.bracket.loadBracketData(bracket.picks);
+    window.bracket.setReadOnly(true);
 }
 
 // Utility functions
