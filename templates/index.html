@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row align-items-center min-vh-75">
+    <div class="col-md-6">
+        <h1 class="display-4 fw-bold mb-4">NBA Playoffs Bracket Challenge 2025</h1>
+        <p class="lead mb-4">Create your perfect bracket, compete with friends, and see who can predict the NBA Playoffs the best!</p>
+        {% if not current_user.is_authenticated %}
+            <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg px-4 me-md-2">Get Started</a>
+                <a href="{{ url_for('login') }}" class="btn btn-outline-primary btn-lg px-4">Login</a>
+            </div>
+        {% else %}
+            <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                <a href="{{ url_for('create_bracket') }}" class="btn btn-primary btn-lg px-4 me-md-2">Create Bracket</a>
+                <a href="{{ url_for('dashboard') }}" class="btn btn-outline-primary btn-lg px-4">View Dashboard</a>
+            </div>
+        {% endif %}
+    </div>
+    <div class="col-md-6">
+        <div class="card bg-light">
+            <div class="card-body p-4">
+                <h3 class="card-title mb-4">How It Works</h3>
+                <div class="d-flex mb-3">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-user-plus fa-2x text-primary"></i>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h5>1. Create an Account</h5>
+                        <p class="mb-0">Sign up for free and join the competition</p>
+                    </div>
+                </div>
+                <div class="d-flex mb-3">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-bracket-curly fa-2x text-primary"></i>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h5>2. Create Your Bracket</h5>
+                        <p class="mb-0">Fill out your predictions for the 2025 NBA Playoffs</p>
+                    </div>
+                </div>
+                <div class="d-flex mb-3">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-trophy fa-2x text-primary"></i>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h5>3. Compete & Win</h5>
+                        <p class="mb-0">Track your progress and compete for the top spot</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-12">
+        <h2 class="text-center mb-4">Featured Brackets</h2>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Most Accurate</h5>
+                        <p class="card-text">Check out the most accurate brackets from previous seasons</p>
+                        <a href="{{ url_for('leaderboard') }}" class="btn btn-outline-primary">View Leaderboard</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Community Picks</h5>
+                        <p class="card-text">See what the community is predicting for this season</p>
+                        <a href="{{ url_for('leaderboard') }}" class="btn btn-outline-primary">View Picks</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Your Progress</h5>
+                        <p class="card-text">Track your bracket's performance throughout the playoffs</p>
+                        <a href="{{ url_for('dashboard') }}" class="btn btn-outline-primary">View Progress</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

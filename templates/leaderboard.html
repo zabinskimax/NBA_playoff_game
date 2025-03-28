@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h2 class="mb-4">Leaderboard</h2>
+
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>User</th>
+                                <th>Bracket Name</th>
+                                <th>Score</th>
+                                <th>Created</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for bracket in brackets %}
+                            <tr>
+                                <td>
+                                    <span class="badge bg-primary">{{ loop.index }}</span>
+                                </td>
+                                <td>{{ bracket.user.username }}</td>
+                                <td>{{ bracket.name }}</td>
+                                <td>
+                                    <span class="badge bg-success">{{ "%.1f"|format(bracket.score) }}</span>
+                                </td>
+                                <td>{{ bracket.created_at.strftime('%B %d, %Y') }}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary view-bracket" data-bracket-id="{{ bracket.id }}">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bracket View Modal -->
+<div class="modal fade" id="bracketModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Bracket Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="bracket-view">
+                    <!-- Bracket content will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<style>
+    .bracket-view {
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 10px;
+    }
+    .table th {
+        font-weight: 600;
+    }
+    .badge {
+        font-size: 0.9rem;
+        padding: 0.5em 0.8em;
+    }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const viewButtons = document.querySelectorAll('.view-bracket');
+    const bracketModal = new bootstrap.Modal(document.getElementById('bracketModal'));
+
+    viewButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const bracketId = this.dataset.bracketId;
+            // Here you would typically fetch the bracket details from the server
+            // and populate the modal with the data
+            bracketModal.show();
+        });
+    });
+});
+</script>
+{% endblock %} 

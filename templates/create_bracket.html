@@ -1,0 +1,257 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Create Your Bracket</h2>
+            <button id="saveBracket" class="btn btn-primary">
+                <i class="fas fa-save me-2"></i>Save Bracket
+            </button>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="mb-3">
+                    <label for="bracketName" class="form-label">Bracket Name</label>
+                    <input type="text" class="form-control" id="bracketName" placeholder="Enter a name for your bracket">
+                </div>
+            </div>
+        </div>
+
+        <div class="bracket-container">
+            <div class="row">
+                <!-- First Round -->
+                <div class="col-md-3">
+                    <div class="round-container">
+                        <h4 class="text-center mb-3">First Round</h4>
+                        <div class="matchups">
+                            {% for i in range(8) %}
+                            <div class="matchup mb-3">
+                                <div class="team-select">
+                                    <select class="form-select team-select" data-round="1" data-matchup="{{ i }}">
+                                        <option value="">Select Team</option>
+                                        <option value="Boston Celtics">Boston Celtics</option>
+                                        <option value="Brooklyn Nets">Brooklyn Nets</option>
+                                        <option value="New York Knicks">New York Knicks</option>
+                                        <option value="Philadelphia 76ers">Philadelphia 76ers</option>
+                                        <option value="Toronto Raptors">Toronto Raptors</option>
+                                        <option value="Chicago Bulls">Chicago Bulls</option>
+                                        <option value="Cleveland Cavaliers">Cleveland Cavaliers</option>
+                                        <option value="Detroit Pistons">Detroit Pistons</option>
+                                        <option value="Indiana Pacers">Indiana Pacers</option>
+                                        <option value="Milwaukee Bucks">Milwaukee Bucks</option>
+                                        <option value="Atlanta Hawks">Atlanta Hawks</option>
+                                        <option value="Charlotte Hornets">Charlotte Hornets</option>
+                                        <option value="Miami Heat">Miami Heat</option>
+                                        <option value="Orlando Magic">Orlando Magic</option>
+                                        <option value="Washington Wizards">Washington Wizards</option>
+                                        <option value="Denver Nuggets">Denver Nuggets</option>
+                                        <option value="Minnesota Timberwolves">Minnesota Timberwolves</option>
+                                        <option value="Oklahoma City Thunder">Oklahoma City Thunder</option>
+                                        <option value="Portland Trail Blazers">Portland Trail Blazers</option>
+                                        <option value="Utah Jazz">Utah Jazz</option>
+                                        <option value="Golden State Warriors">Golden State Warriors</option>
+                                        <option value="LA Clippers">LA Clippers</option>
+                                        <option value="Los Angeles Lakers">Los Angeles Lakers</option>
+                                        <option value="Phoenix Suns">Phoenix Suns</option>
+                                        <option value="Sacramento Kings">Sacramento Kings</option>
+                                        <option value="Dallas Mavericks">Dallas Mavericks</option>
+                                        <option value="Houston Rockets">Houston Rockets</option>
+                                        <option value="Memphis Grizzlies">Memphis Grizzlies</option>
+                                        <option value="New Orleans Pelicans">New Orleans Pelicans</option>
+                                        <option value="San Antonio Spurs">San Antonio Spurs</option>
+                                    </select>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Second Round -->
+                <div class="col-md-3">
+                    <div class="round-container">
+                        <h4 class="text-center mb-3">Second Round</h4>
+                        <div class="matchups">
+                            {% for i in range(4) %}
+                            <div class="matchup mb-3">
+                                <div class="team-select">
+                                    <select class="form-select team-select" data-round="2" data-matchup="{{ i }}">
+                                        <option value="">Select Team</option>
+                                    </select>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Conference Finals -->
+                <div class="col-md-3">
+                    <div class="round-container">
+                        <h4 class="text-center mb-3">Conference Finals</h4>
+                        <div class="matchups">
+                            {% for i in range(2) %}
+                            <div class="matchup mb-3">
+                                <div class="team-select">
+                                    <select class="form-select team-select" data-round="3" data-matchup="{{ i }}">
+                                        <option value="">Select Team</option>
+                                    </select>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NBA Finals -->
+                <div class="col-md-3">
+                    <div class="round-container">
+                        <h4 class="text-center mb-3">NBA Finals</h4>
+                        <div class="matchups">
+                            <div class="matchup mb-3">
+                                <div class="team-select">
+                                    <select class="form-select team-select" data-round="4" data-matchup="0">
+                                        <option value="">Select Team</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<style>
+    .bracket-container {
+        overflow-x: auto;
+        padding: 20px 0;
+    }
+    .round-container {
+        padding: 20px;
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+        border-radius: 15px;
+        min-height: 500px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .matchup {
+        position: relative;
+        margin-bottom: 30px;
+    }
+    .matchup::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        right: -50%;
+        width: 50%;
+        height: 2px;
+        background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        z-index: 1;
+    }
+    .team-select {
+        position: relative;
+        z-index: 2;
+    }
+    .form-select {
+        border: 2px solid #e9ecef;
+        border-radius: 10px;
+        padding: 0.75rem 1rem;
+        transition: all 0.3s ease;
+        background-color: white;
+    }
+    .form-select:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.2rem rgba(29, 66, 138, 0.25);
+    }
+    .form-select option {
+        padding: 10px;
+    }
+    h4 {
+        color: var(--primary-color);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const teamSelects = document.querySelectorAll('.team-select');
+    const saveButton = document.getElementById('saveBracket');
+    const bracketName = document.getElementById('bracketName');
+
+    // Update next round options based on previous round selection
+    teamSelects.forEach(select => {
+        select.addEventListener('change', function() {
+            const currentRound = parseInt(this.dataset.round);
+            const currentMatchup = parseInt(this.dataset.matchup);
+            const selectedTeam = this.value;
+
+            if (currentRound < 4) {
+                const nextRound = currentRound + 1;
+                const nextMatchup = Math.floor(currentMatchup / 2);
+                const nextSelect = document.querySelector(`.team-select[data-round="${nextRound}"][data-matchup="${nextMatchup}"]`);
+                
+                if (nextSelect) {
+                    // Clear existing options except the first one
+                    while (nextSelect.options.length > 1) {
+                        nextSelect.remove(1);
+                    }
+                    
+                    // Add the selected team as an option
+                    if (selectedTeam) {
+                        const option = document.createElement('option');
+                        option.value = selectedTeam;
+                        option.textContent = selectedTeam;
+                        nextSelect.appendChild(option);
+                    }
+                }
+            }
+        });
+    });
+
+    // Save bracket
+    saveButton.addEventListener('click', function() {
+        const name = bracketName.value.trim();
+        if (!name) {
+            alert('Please enter a name for your bracket');
+            return;
+        }
+
+        const picks = {};
+        teamSelects.forEach(select => {
+            picks[`round${select.dataset.round}_matchup${select.dataset.matchup}`] = select.value;
+        });
+
+        // Send to server
+        fetch('{{ url_for("create_bracket") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                name: name,
+                picks: picks
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                window.location.href = '{{ url_for("dashboard") }}';
+            } else {
+                alert('Error saving bracket: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error saving bracket. Please try again.');
+        });
+    });
+});
+</script>
+{% endblock %} 

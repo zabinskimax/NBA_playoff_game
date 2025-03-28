@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>My Brackets</h2>
+            <a href="{{ url_for('create_bracket') }}" class="btn btn-primary">
+                <i class="fas fa-plus me-2"></i>Create New Bracket
+            </a>
+        </div>
+
+        {% if brackets %}
+            <div class="row">
+                {% for bracket in brackets %}
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ bracket.name }}</h5>
+                                <p class="card-text">
+                                    <small class="text-muted">
+                                        Created: {{ bracket.created_at.strftime('%B %d, %Y') }}
+                                    </small>
+                                </p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="badge bg-primary">Score: {{ "%.1f"|format(bracket.score) }}</span>
+                                    </div>
+                                    <div>
+                                        <a href="#" class="btn btn-outline-primary btn-sm">View Details</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="text-center py-5">
+                <i class="fas fa-bracket-curly fa-3x text-muted mb-3"></i>
+                <h3>No Brackets Yet</h3>
+                <p class="text-muted">Create your first bracket to start competing!</p>
+                <a href="{{ url_for('create_bracket') }}" class="btn btn-primary">
+                    <i class="fas fa-plus me-2"></i>Create Your First Bracket
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Your Performance</h5>
+                <div class="d-flex align-items-center mb-3">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-chart-line fa-2x text-primary"></i>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h6 class="mb-0">Average Score</h6>
+                        <p class="mb-0 text-muted">{{ "%.1f"|format(brackets|map(attribute='score')|sum / brackets|length if brackets else 0) }}</p>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center mb-3">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-trophy fa-2x text-primary"></i>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h6 class="mb-0">Best Score</h6>
+                        <p class="mb-0 text-muted">{{ "%.1f"|format(brackets|map(attribute='score')|max if brackets else 0) }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Quick Actions</h5>
+                <div class="list-group list-group-flush">
+                    <a href="{{ url_for('create_bracket') }}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-plus me-2"></i>Create New Bracket
+                    </a>
+                    <a href="{{ url_for('leaderboard') }}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-trophy me-2"></i>View Leaderboard
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <i class="fas fa-share-alt me-2"></i>Share Your Brackets
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
